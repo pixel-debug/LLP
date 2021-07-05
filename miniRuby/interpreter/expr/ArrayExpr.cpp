@@ -17,10 +17,10 @@ ArrayExpr::~ArrayExpr(){
 Type* ArrayExpr::expr(){
 	std::vector<Type*> res;
 	Type* v;
-	for(Expr* e : m_exprs)
+	for(Expr* e : m_exprs){
 		v = e->expr();
 		res.push_back(v);
-
+	}
 
 	return new ArrayValue(res);
 }
