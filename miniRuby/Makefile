@@ -16,6 +16,7 @@ OBJS = rubi.o \
 			interpreter/expr/InputExpr.o\
 			interpreter/expr/NotBoolExpr.o\
 			interpreter/expr/SingleBoolExpr.o\
+			interpreter/expr/SetExpr.o\
 			interpreter/expr/Variable.o\
 			interpreter/command/AssignCommand.o\
 			interpreter/command/BlocksCommand.o\
@@ -66,6 +67,8 @@ interpreter/expr/InputExpr.o: interpreter/expr/InputExpr.h
 interpreter/expr/NotBoolExpr.o: interpreter/expr/NotBoolExpr.h
 
 interpreter/expr/SingleBoolExpr.o: interpreter/expr/SingleBoolExpr.h
+
+interpreter/expr/SetExpr.o: interpreter/expr/SetExpr.h
 
 interpreter/expr/Variable.o: interpreter/expr/Variable.h
 

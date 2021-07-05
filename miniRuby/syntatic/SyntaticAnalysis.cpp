@@ -165,7 +165,7 @@ void SyntaticAnalysis::showError() {
 			}
 			aux++;
         }
-		Command* elsecmd;
+		Command* elsecmd = NULL;
         if(m_current.type == TT_ELSE)
         {
             advance();
@@ -191,7 +191,7 @@ void SyntaticAnalysis::showError() {
             advance();
 
         Command* thencmd = procCode();
-		Command* elsecmd;
+		Command* elsecmd = NULL;
         if(m_current.type == TT_ELSE)
         {
             advance();
@@ -295,8 +295,10 @@ void SyntaticAnalysis::showError() {
     // <assign>   ::= <access> { ',' <access> } '=' <expr> { ',' <expr> } [ <post> ] ';'
     Command* SyntaticAnalysis::procAssign() {
         int line = m_lex.line();
+
 		std::list<Expr*> left;
 		std::list<Expr*> right;
+
 		left.push_back(procAccess());
 
         while (m_current.type == TT_COMMA) {
@@ -314,7 +316,8 @@ void SyntaticAnalysis::showError() {
         }
 		Command* cmd = NULL;
 		AssignCommand* ascmd = new AssignCommand(line, left, right);
-        if (m_current.type == TT_IF || m_current.type == TT_UNLESS) {
+
+	    if (m_current.type == TT_IF || m_current.type == TT_UNLESS) {
             cmd = procPost(ascmd);
         }else{
 			cmd = ascmd;
@@ -576,17 +579,17 @@ void SyntaticAnalysis::showError() {
 
     // <const>    ::= <integer> | <string> | <array>
     Expr* SyntaticAnalysis::procConst() {
-
+		Expr* expr = NULL;
 		if(m_current.type == TT_INTEGER){
-            return procInteger();
+            expr = procInteger();
 		}
         else if(m_current.type == TT_STRING){
-            return procString();
+            expr = procString();
 		}
         else{
-            return procArray();
+            expr = procArray();
 		}
-		return NULL;
+		return expr;
     }
 
     // <input>    ::= gets | rand
@@ -681,7 +684,9 @@ void SyntaticAnalysis::showError() {
             index = procExpr();
             eat(TT_CLOSE_BRA);
         }
-		return new AccessExpr(line, base, index);
+		AccessExpr* ac = new AccessExpr(line, base, index);
+		Expr* expr = ac;
+		return expr;
     }
 
 // <function> ::= '.' ( length | to_i | to_s )

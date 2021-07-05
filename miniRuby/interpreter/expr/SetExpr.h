@@ -8,14 +8,14 @@
 
 class SetExpr: public Expr{
 	public:
-		virtual ~SetExpr(){}
+		virtual ~SetExpr();
 
 		virtual Type* expr() = 0;
 
 		void setValue(Type* value);
 
 	protected:
-		SetExpr(int line) : Expr(line){}
+		SetExpr(int line);
 
 };
 

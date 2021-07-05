@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
+
+#include "interpreter/command/Command.h"
 #include "lexical/LexicalAnalysis.h"
 #include "syntatic/SyntaticAnalysis.h"
 
@@ -14,7 +16,9 @@ int main(int argc, char* argv[]){
 		LexicalAnalysis l(argv[1]);
 
 		SyntaticAnalysis s(l);
-		s.start();
+		Command* cmd = s.start();
+		cmd->execute();
+		delete cmd;
 		// while((lex = l.nextToken()).type > 0){
 		// 	std::cout << lex.str() << std::endl;
 		// }

@@ -1,0 +1,3 @@
+print 'Digite algo: ';
+x = gets;
+puts 'Você digitou ' + x;
