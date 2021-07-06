@@ -15,7 +15,7 @@ class Type {
         virtual Type::ValueType type(){return m_type;};
 
     private:
-        Type::ValueType m_type;
+        enum ValueType m_type;
 };
 
 #endif

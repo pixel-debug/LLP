@@ -10,7 +10,8 @@ class InputExpr : public Expr{
 		enum InputOp
 			{
 				GetsOp,
-				RandOp
+				RandOp,
+				NoneOp
 			};
 		InputExpr(int line, enum InputOp op);
 		virtual ~InputExpr();

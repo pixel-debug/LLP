@@ -19,7 +19,6 @@ void OutputCommand::execute(){
 		Type* v = m_expr->expr();
 		std::cout <<  v->str();
 	}
-
 	if(m_op == OutputCommand::PutsOp){
 		std::cout << std::endl;
 	}

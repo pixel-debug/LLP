@@ -18,7 +18,8 @@ class BinaryExpr: public Expr{
 				MulOp,
 				DivOp,
 				ModOp,
-				ExpOp
+				ExpOp,
+				NoneOp
 			};
 					BinaryExpr(int line, Expr* left, enum BinaryOp bp, Expr* right);
 					virtual ~BinaryExpr();

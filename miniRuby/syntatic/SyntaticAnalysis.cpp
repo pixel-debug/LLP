@@ -287,8 +287,6 @@ void SyntaticAnalysis::showError() {
 		}
 
         eat(TT_SEMICOLON);
-
-
 		return cmd;
     }
 
@@ -497,22 +495,23 @@ void SyntaticAnalysis::showError() {
 
     // <term>     ::= <power> { ('*' | '/' | '%') <power> }
     Expr* SyntaticAnalysis::procTerm() {
-        int line = m_lex.line();
+
 		Expr* left = procPower();
-		enum BinaryExpr::BinaryOp bp;
+		enum BinaryExpr::BinaryOp bp = BinaryExpr::NoneOp;
         while (m_current.type == TT_MUL || m_current.type == TT_DIV || m_current.type == TT_MOD) {
-            switch(m_current.type){
+            int line = m_lex.line();
+		    switch(m_current.type){
 				case TT_MUL:
 					bp = BinaryExpr::MulOp;
-					advance();
+
 					break;
 				case TT_DIV:
 					bp = BinaryExpr::DivOp;
-					advance();
+
 					break;
 				case TT_MOD:
 					bp = BinaryExpr::ModOp;
-					advance();
+
 					break;
 				default:
 					showError();
@@ -595,14 +594,14 @@ void SyntaticAnalysis::showError() {
     // <input>    ::= gets | rand
     InputExpr* SyntaticAnalysis::procInput() {
 		int line = m_lex.line();
-		enum InputExpr::InputOp ip;
+		enum InputExpr::InputOp ip = InputExpr::NoneOp;
         if(m_current.type == TT_GETS){
-			eat(TT_GETS);
 			ip = InputExpr::GetsOp;
+			eat(TT_GETS);
 		}
         else if(m_current.type == TT_RAND){
-			eat(TT_RAND);
 			ip = InputExpr::RandOp;
+			eat(TT_RAND);
 		}else{
 			showError();
 		}

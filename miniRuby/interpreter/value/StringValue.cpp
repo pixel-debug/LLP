@@ -1,6 +1,7 @@
 #include "StringValue.h"
 
 #include <string>
+#include <iostream>
 
 StringValue::StringValue (std::string value)
 			: Value(Type::StringType), m_value(value){
@@ -16,5 +17,6 @@ StringValue::~StringValue(){
 	return m_value;
 }
 std::string StringValue::value(){
+
 	return m_value;
 }
