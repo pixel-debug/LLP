@@ -12,7 +12,3 @@ Type* SetExpr::expr(){
 	return expr();
 }
 
-
-void SetExpr::setValue(Type* value){
-
-}

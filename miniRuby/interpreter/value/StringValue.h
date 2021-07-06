@@ -11,7 +11,7 @@ class StringValue : public Value<std::string> {
         virtual ~StringValue();
 
         virtual std::string value();
-
+		virtual std::string str();
     private:
         std::string m_value;
 };

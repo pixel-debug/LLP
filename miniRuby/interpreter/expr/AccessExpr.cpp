@@ -7,7 +7,7 @@
 
 #include "iostream"
 AccessExpr::AccessExpr(int line, Expr* base, Expr* index)
-			:Expr(line), m_base(base), m_index(index){
+			:SetExpr(line), m_base(base), m_index(index){
 
 }
 

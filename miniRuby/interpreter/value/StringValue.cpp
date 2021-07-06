@@ -12,6 +12,9 @@ StringValue::~StringValue(){
 
 }
 
+ std::string StringValue::str(){
+	return m_value;
+}
 std::string StringValue::value(){
 	return m_value;
 }

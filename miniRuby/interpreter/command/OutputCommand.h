@@ -15,7 +15,8 @@ class OutputCommand : public Command{
 		virtual ~OutputCommand();
 		virtual void execute();
 	private:
-		Expr* m_expr;
 		enum OutputOp m_op;
+		Expr* m_expr;
+
 };
 #endif

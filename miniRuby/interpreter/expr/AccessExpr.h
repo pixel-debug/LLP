@@ -2,11 +2,11 @@
 #define ACCESS_EXPR_H
 
 
-#include "Expr.h"
+#include "SetExpr.h"
 
 
 
-class AccessExpr: public Expr{
+class AccessExpr: public SetExpr{
 		private:
 			 Expr* m_base;
 			 Expr* m_index;

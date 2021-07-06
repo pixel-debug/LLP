@@ -17,9 +17,10 @@ void OutputCommand::execute(){
 
 	if(m_expr != NULL){
 		Type* v = m_expr->expr();
-		std::string sv = ((StringValue*)v)->value();
-		std::cout << sv ;
-	}if(m_op == OutputCommand::PutsOp){
+		std::cout <<  v->str();
+	}
+
+	if(m_op == OutputCommand::PutsOp){
 		std::cout << std::endl;
 	}
 

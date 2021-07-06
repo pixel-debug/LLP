@@ -11,7 +11,7 @@ class ArrayValue : public Value<std::vector<Type*>>{
 
 		virtual ~ArrayValue();
 		virtual std::vector<Type*> value();
-
+		virtual std::string str();
 	private:
 		std::vector<Type*> m_value;
 };

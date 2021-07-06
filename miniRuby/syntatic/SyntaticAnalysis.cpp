@@ -4,6 +4,7 @@
 #include <iomanip>
 #include "SyntaticAnalysis.h"
 #include <list>
+#include <vector>
 
 #include "../interpreter/command/AssignCommand.h"
 #include "../interpreter/command/BlocksCommand.h"
@@ -103,8 +104,7 @@ void SyntaticAnalysis::showError() {
 				m_current.type == TT_FOR ||
 				m_current.type == TT_PUTS ||
 				m_current.type == TT_PRINT ||
-				m_current.type == TT_ID ||
-				m_current.type == TT_OPEN_PAR) {
+				m_current.type == TT_ID ) {
 			Command* cmd = procCmd();
 			cmds.insert(it, cmd);
 		}
@@ -132,7 +132,7 @@ void SyntaticAnalysis::showError() {
 
         else if (m_current.type == TT_PUTS || m_current.type == TT_PRINT)
             return procOutput();
-        else if (m_current.type == TT_ID || m_current.type == TT_OPEN_PAR)
+        else if (m_current.type == TT_ID)
             return procAssign();
         else
             showError();
@@ -296,8 +296,8 @@ void SyntaticAnalysis::showError() {
     Command* SyntaticAnalysis::procAssign() {
         int line = m_lex.line();
 
-		std::list<Expr*> left;
-		std::list<Expr*> right;
+		std::vector<Expr*> left;
+		std::vector<Expr*> right;
 
 		left.push_back(procAccess());
 
@@ -544,7 +544,7 @@ void SyntaticAnalysis::showError() {
     Expr* SyntaticAnalysis::procFactor() {
 		//int line = m_lex.line();
 		Expr* expr = NULL;
-		enum ConvExpr::ConvOp cp;
+		enum ConvExpr::ConvOp cp = ConvExpr::NoneOp;
 		if (m_current.type == TT_ADD ){
 			cp = ConvExpr::PlusOp;
 			advance();
@@ -571,7 +571,7 @@ void SyntaticAnalysis::showError() {
         if(m_current.type == TT_DOT){
             expr = procFunction(expr);
 		}
-		if(cp != NULL)
+		if(cp != ConvExpr::NoneOp)
 			expr = new ConvExpr(line, cp, expr);
 
 		return expr;
@@ -667,33 +667,26 @@ void SyntaticAnalysis::showError() {
         else
             showError();
 
-		Expr* index = NULL;
+
 
         if(m_current.type==TT_OPEN_BRA)
         {
+
             eat(TT_OPEN_BRA);
-            if (m_current.type == TT_ADD ||
-                m_current.type == TT_SUB ||
-                m_current.type == TT_INTEGER ||
-                m_current.type == TT_STRING ||
-                m_current.type == TT_OPEN_BRA ||
-                m_current.type == TT_GETS ||
-                m_current.type == TT_RAND ||
-                m_current.type == TT_ID ||
-                m_current.type == TT_OPEN_PAR)
-            index = procExpr();
+            Expr* index = procExpr();
             eat(TT_CLOSE_BRA);
-        }
-		AccessExpr* ac = new AccessExpr(line, base, index);
-		Expr* expr = ac;
-		return expr;
+			AccessExpr* ac = new AccessExpr(line, base, index);
+       		base = ac;
+	    }
+
+		return base;
     }
 
 // <function> ::= '.' ( length | to_i | to_s )
     FunctionExpr* SyntaticAnalysis::procFunction(Expr* expr) {
 		int line = m_lex.line();
         eat(TT_DOT);
-		enum FunctionExpr::FunctionOp fp;
+		enum FunctionExpr::FunctionOp fp = FunctionExpr::LenghtOp;
 
         if(m_current.type == TT_LENGHT || m_current.type == TT_TO_INT || m_current.type == TT_TO_STR)
            switch(m_current.type){

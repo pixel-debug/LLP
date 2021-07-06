@@ -2,10 +2,10 @@
 #define VARIABLE_H
 
 #include <string>
-#include "Expr.h"
+#include "SetExpr.h"
 #include "../util/Memory.h"
 
-class Variable : public Expr{
+class Variable : public SetExpr{
 	public:
 		Variable(int line, const std::string& name);
 		virtual ~Variable();

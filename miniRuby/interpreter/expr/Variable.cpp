@@ -1,7 +1,7 @@
 #include "Variable.h"
-
+#include <iostream>
 Variable::Variable(int line, const std::string& name)
-	: Expr(line), name(name) {
+	: SetExpr(line), name(name) {
 }
 
 Variable::~Variable() {

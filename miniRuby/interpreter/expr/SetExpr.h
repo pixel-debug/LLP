@@ -12,7 +12,7 @@ class SetExpr: public Expr{
 
 		virtual Type* expr() = 0;
 
-		void setValue(Type* value);
+		virtual void setValue(Type* value) = 0;
 
 	protected:
 		SetExpr(int line);

@@ -10,8 +10,8 @@ class IntegerValue : public Value<int>{
 		IntegerValue(int value);
 
 		virtual ~IntegerValue();
-		int value();
-
+		virtual int value();
+		virtual std::string str();
 	private:
 		int m_value;
 };

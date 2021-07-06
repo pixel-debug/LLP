@@ -2,7 +2,7 @@
 #define MEMORY_H
 
 #include <map>
-#include <set>
+
 #include <string>
 #include "../value/Type.h"
 
@@ -15,7 +15,7 @@ class Memory {
 
 	private:
 		static std::map<std::string, Type*> memory;
-		static std::set<std::string> consts;
+
 
 };
 

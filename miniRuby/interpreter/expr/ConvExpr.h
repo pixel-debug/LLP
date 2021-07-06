@@ -10,7 +10,8 @@ class ConvExpr : public Expr{
 		enum ConvOp
 			{
 				PlusOp,
-				MinusOp
+				MinusOp,
+				NoneOp
 			};
 		ConvExpr(int line, enum ConvOp cp, Expr* expr);
 		virtual ~ConvExpr();
