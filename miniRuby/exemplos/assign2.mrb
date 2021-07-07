@@ -1,3 +1,7 @@
 a = [ 'oi' ];
-a[2] = 20;
-puts a;
+a[1] = 20;
+i = 0;
+while i < 2 do
+	puts a[i];
+	i = i + 1;
+end

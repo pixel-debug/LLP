@@ -38,6 +38,7 @@ Type* AccessExpr::expr(){
 			else{
 				Utils::abort(AccessExpr::getLine());
 			}
+
 			return vec[indice];
 		}
 	}
@@ -85,11 +86,30 @@ void AccessExpr::setValue(Type* value){
 			else{
 				Utils::abort(AccessExpr::getLine());
 			}
-			vec[indice] = value;
+
+			if(indice >= vec.size()){
+				if( indice == vec.size())
+					vec.push_back(value);
+				else{
+					for (int i = vec.size(); i <= indice; i ++){
+						if(indice == vec.size())
+							vec.push_back(value);
+						else{
+							vec.push_back(NULL);
+						}
+					}
+				}
+			}
+			else
+				vec[indice] = value;
 			ArrayValue* av = new ArrayValue(vec);
 
-			set->setValue(vec[indice]);
-			std::cout << vec[indice]->str() << ' ' << std::endl;
+			std::cout << "indice " << indice << ' ' << std::endl;
+			std::cout << "value " << value->str() << ' ' << std::endl;
+
+			set->setValue(av);
+
+			std::cout << "vec[indice] " << vec[indice]->str() << ' ' << std::endl;
 		}
 	}
 }

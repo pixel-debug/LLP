@@ -98,31 +98,37 @@ bool SingleBoolExpr::expr(){
 		}
 		break;
 	case ContainsOp:
+		bool aux = false;
 		if(t1->type() == Type::IntegerType && t2->type() == Type::ArrayType){
 
 				std::vector<Type*> v1 = ((ArrayValue*)t2)->value();
 
-				if(std::find(v1.end(), v1.begin(), t1) != v1.end()){
-					return true;
+				if(std::find(v1.begin(), v1.end(), t1) != v1.end()){
+					aux = true;
+					std::cout << "tem" << std::endl;
+				}
+				else{
+					std::cout << "tem nao" << std::endl;
+					aux = false;
 				}
 
-				else
-					return false;
-			}
+		}
 		else if (t1->type() == Type::StringType && t2->type() == Type::ArrayType){
 				std::vector<Type*> v1 = ((ArrayValue*)t2)->value();
 
 				if(std::find(v1.end(), v1.begin(), t1) != v1.end()){
-					return true;
+					aux = true;
 				}
 				else
-					return false;
+					aux = false;
 			}
 		else{
 			Utils::abort(SingleBoolExpr::getLine());
 		}
+
 		break;
-	default:
-		break;
+
+	return aux;
 	}
+
 }

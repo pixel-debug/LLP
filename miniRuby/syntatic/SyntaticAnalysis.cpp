@@ -520,7 +520,6 @@ void SyntaticAnalysis::showError() {
 					advance();
 					break;
 				case TT_SUB:
-					std:: cout << "esta no sub do arith" << std::endl;
 					bp = BinaryExpr::SubOp;
 					advance();
 					break;
@@ -584,16 +583,12 @@ void SyntaticAnalysis::showError() {
     Expr* SyntaticAnalysis::procFactor() {
 		//int line = m_lex.line();
 		Expr* expr = NULL;
-
-		std::cout << "entrou no procFator" << std::endl;
-
 		enum ConvExpr::ConvOp cp = ConvExpr::NoneOp;
 		if (m_current.type == TT_ADD ){
 			cp = ConvExpr::PlusOp;
 			advance();
 		}
 		if(m_current.type == TT_SUB){
-			std::cout << "entrou no TT_SUB" << std::endl;
 			cp = ConvExpr::MinusOp;
 			advance();
 		}
@@ -608,7 +603,6 @@ void SyntaticAnalysis::showError() {
         else if(m_current.type == TT_GETS || m_current.type == TT_RAND)
             expr = procInput();
         else if(m_current.type == TT_ID || m_current.type == TT_OPEN_PAR){
-			std:: cout << "esta no TT_ID do factor" << std::endl;
 			expr = procAccess();
 		}
 
@@ -691,38 +685,34 @@ void SyntaticAnalysis::showError() {
     Expr* SyntaticAnalysis::procAccess() {
         int line = m_lex.line();
 
-		std::cout << " esta no procAccess" << std::endl;
 
 		Expr* base = NULL;
 
-		if(m_current.type == TT_ID){
-			base = procId();
-			std::cout << " esta no procAccess" << std::endl;
-		}
-
+		if(m_current.type == TT_ID)
+            base = procId();
 
 		else if(m_current.type == TT_OPEN_PAR)
         {
-            eat(TT_OPEN_PAR);
+            advance();
             base = procExpr();
 			eat(TT_CLOSE_PAR);
 		}else
             showError();
 
-		Expr* index = nullptr;
-		AccessExpr* ac = nullptr;
+		Expr* index = NULL;
 
         if(m_current.type==TT_OPEN_BRA)
         {
 
-            eat(TT_OPEN_BRA);
+            advance();
             index = procExpr();
             eat(TT_CLOSE_BRA);
-			ac = new AccessExpr(line, base, index);
-			base = ac;
+			AccessExpr* ac = new AccessExpr(line, base, index);
+	   		base = ac;
 	    }
 
 		return base;
+
     }
 
 // <function> ::= '.' ( length | to_i | to_s )

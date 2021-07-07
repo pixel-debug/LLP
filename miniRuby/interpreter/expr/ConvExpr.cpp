@@ -12,7 +12,6 @@ ConvExpr::~ConvExpr(){
 }
 
 Type* ConvExpr::expr(){
-	std::cout << "oi" << std::endl;
 	Type* v = m_expr->expr();
 
 

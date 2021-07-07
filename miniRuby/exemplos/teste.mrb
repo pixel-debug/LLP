@@ -1,0 +1,13 @@
+attempts = [];
+i = 0;
+while i < 5 do
+	x = gets.to_i;
+
+	if x === attempts then
+		puts 'ja tem esse valor';
+	else
+		attempts = attempts + [x];
+	end
+	i = i+1;
+end
+puts attempts;

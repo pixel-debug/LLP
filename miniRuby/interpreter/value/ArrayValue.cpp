@@ -16,13 +16,14 @@ std::vector<Type*> ArrayValue::value(){
 
 std::string ArrayValue::str(){
 	std::stringstream ss;
+
 	ss << '[';
 	for(int i = 0; i < m_value.size(); i++){
 		Type* t = m_value[i];
 		ss << (i == 0 ? " " : ", ");
 		ss << (t == nullptr ? "" : t->str());
 	}
-//	std::cout << ";-;";
+
 	ss << " ]";
 	return ss.str();
 }

@@ -21,6 +21,5 @@ Type* ArrayExpr::expr(){
 		res.push_back(v);
 	}
 	ArrayValue* av = new ArrayValue(res);
-//	std::cout << av->str() << ' ';
 	return av;
 }
