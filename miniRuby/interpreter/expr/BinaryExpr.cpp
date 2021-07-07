@@ -35,7 +35,7 @@ Type* BinaryExpr::expr(){
 						vec1.push_back(iv);
 					}
 				}
-				else if(v1 > v0){
+				else if(v0 > v1){
 					for( int i = v0; i >= v1; i--){
 						IntegerValue* iv = new IntegerValue(i);
 					//	std::cout << iv->str() << std::endl;
@@ -59,7 +59,7 @@ Type* BinaryExpr::expr(){
 				int v1 = std::stoi(t1->str());
 
 				std::vector<Type*> vec1;
-			//	std::cout << v0 << ' ' << v1 << ' ';
+				//std::cout << (v0 > v1) << std::endl;
 				if(v0 < v1){
 					for( int i = v0; i < v1; i++){
 						IntegerValue* iv = new IntegerValue(i);
@@ -67,21 +67,21 @@ Type* BinaryExpr::expr(){
 						vec1.push_back(iv);
 					}
 				}
-				else if(v1 > v0){
+				else if(v0 > v1){
 					for( int i = v0; i > v1; i--){
 						IntegerValue* iv = new IntegerValue(i);
-					//	std::cout << iv->str() << std::endl;
+					//	std::cout << iv << std::endl;
 						vec1.push_back(iv);
 					}
 				}
 				else{
 					int i = v0;
 					IntegerValue* iv = new IntegerValue(i);
-					//	std::cout << iv->str() << std::endl;
+				//	std::cout << iv->str() << std::endl;
 					vec1.push_back(iv);
 				}
 				ArrayValue* av = new ArrayValue(vec1);
-				std::cout << av << std::endl;
+				//std::cout << av << std::endl;
 				return av;
 			}
 			break;

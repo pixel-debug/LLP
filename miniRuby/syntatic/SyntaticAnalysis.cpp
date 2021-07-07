@@ -404,7 +404,7 @@ void SyntaticAnalysis::showError() {
 		int line = m_lex.line();
         Expr* left = procExpr();
 
-		enum SingleBoolExpr::RelOp rp;
+		enum SingleBoolExpr::RelOp rp = SingleBoolExpr::NoneOp;
         switch(m_current.type){
 			case TT_EQUAL:
 				rp = SingleBoolExpr::EqualsOp;

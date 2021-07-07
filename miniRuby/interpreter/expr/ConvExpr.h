@@ -21,8 +21,9 @@ class ConvExpr : public Expr{
 
 
 	private:
-		Expr* m_expr;
 		enum ConvOp m_cp;
+		Expr* m_expr;
+
 
 };
 #endif

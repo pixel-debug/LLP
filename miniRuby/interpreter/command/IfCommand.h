@@ -19,8 +19,8 @@ class IfCommand: public Command{
 				virtual void execute();
 
 			private:
-				BoolExpr* cond;
-				Command* thenCommands;
+				BoolExpr* m_cond;
+				Command* m_thenCommands;
 				Command* m_elseCommands;
 
 };

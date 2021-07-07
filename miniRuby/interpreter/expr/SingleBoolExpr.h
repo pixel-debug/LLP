@@ -17,7 +17,8 @@ class SingleBoolExpr : public BoolExpr{
 
 				GreaterThanOp,
 				GreaterEqualOp,
-				ContainsOp
+				ContainsOp,
+				NoneOp
 			};
 		SingleBoolExpr(int line, Expr* left, enum RelOp op, Expr* right);
 		virtual ~SingleBoolExpr();
@@ -27,9 +28,11 @@ class SingleBoolExpr : public BoolExpr{
 
 
 	private:
+
 		Expr* m_left;
-		Expr* m_right;
 		enum RelOp m_op;
+		Expr* m_right;
+
 
 };
 #endif

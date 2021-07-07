@@ -19,8 +19,10 @@ class CompositeBoolExpr : public BoolExpr{
 
 
 	private:
+
 		BoolExpr* m_left;
-		BoolExpr* m_right;
 		enum BoolOp m_op;
+		BoolExpr* m_right;
+
 };
 #endif

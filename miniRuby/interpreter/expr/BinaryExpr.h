@@ -28,8 +28,9 @@ class BinaryExpr: public Expr{
 
 			private:
 				Expr* m_left;
-				Expr* m_right;
 				enum BinaryOp m_bp;
+				Expr* m_right;
+
 };
 
 
