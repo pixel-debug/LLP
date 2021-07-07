@@ -8,7 +8,8 @@ class CompositeBoolExpr : public BoolExpr{
 	public:
 		enum BoolOp{
 			And,
-			Or
+			Or,
+			NoneOp
 		};
 
 		CompositeBoolExpr(int line, BoolExpr* left, enum BoolOp op, BoolExpr* right);

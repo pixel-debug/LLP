@@ -88,8 +88,8 @@ void AccessExpr::setValue(Type* value){
 			vec[indice] = value;
 			ArrayValue* av = new ArrayValue(vec);
 
-			set->setValue(av);
-
+			set->setValue(vec[indice]);
+			std::cout << vec[indice]->str() << ' ' << std::endl;
 		}
 	}
 }

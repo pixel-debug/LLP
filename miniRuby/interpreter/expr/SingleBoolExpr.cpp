@@ -6,7 +6,7 @@
 #include "../util/Utils.h"
 
 
-
+#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <string.h>
@@ -98,12 +98,23 @@ bool SingleBoolExpr::expr(){
 		}
 		break;
 	case ContainsOp:
-		if(t1->type() == Type::ArrayType && t2->type() == Type::ArrayType){
-				std::vector<Type*> v0 = ((ArrayValue*)t1)->value();
+		if(t1->type() == Type::IntegerType && t2->type() == Type::ArrayType){
+
 				std::vector<Type*> v1 = ((ArrayValue*)t2)->value();
 
-				if(std::search(v0.end(), v0.begin(), v1.end(), v1.end()) != v0.end())
+				if(std::find(v1.end(), v1.begin(), t1) != v1.end()){
 					return true;
+				}
+
+				else
+					return false;
+			}
+		else if (t1->type() == Type::StringType && t2->type() == Type::ArrayType){
+				std::vector<Type*> v1 = ((ArrayValue*)t2)->value();
+
+				if(std::find(v1.end(), v1.begin(), t1) != v1.end()){
+					return true;
+				}
 				else
 					return false;
 			}

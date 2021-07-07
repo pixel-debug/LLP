@@ -12,7 +12,7 @@ IfCommand::~IfCommand(){
 
 void IfCommand::setElseCommands(Command* elseCommands){
   m_elseCommands = elseCommands;
-};
+}
 
 void IfCommand::execute(){
 	if(m_cond->expr()){

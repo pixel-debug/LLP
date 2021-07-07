@@ -95,7 +95,7 @@ void SyntaticAnalysis::showError() {
 		int line = m_lex.line();
 
 		std::list<Command*> cmds;
-		std::list<Command*>::iterator it = cmds.begin();
+		//std::list<Command*>::iterator it = cmds.begin();
 
 		while (m_current.type == TT_IF ||
 				m_current.type == TT_UNLESS ||
@@ -106,10 +106,9 @@ void SyntaticAnalysis::showError() {
 				m_current.type == TT_PRINT ||
 				m_current.type == TT_ID ) {
 			Command* cmd = procCmd();
-			cmds.insert(it, cmd);
+			cmds.push_back(cmd);
 		}
-			BlocksCommand* bcmd = new BlocksCommand(line, cmds);
-			return bcmd;
+			return new BlocksCommand(line, cmds);
 	}
 
     // <cmd>      ::= <if> | <unless> | <while> | <until> | <for> | <output> | <assign>
@@ -148,24 +147,35 @@ void SyntaticAnalysis::showError() {
 
         if (m_current.type == TT_THEN)
             advance();
+
 		Command* thenCommands = procCode();
+
         IfCommand* ifcmd = new IfCommand(line, bexr, thenCommands);
 		std::vector<IfCommand*> ifvec;
+
 		int aux = 0;
         while(m_current.type == TT_ELSIF)
         {
+			int lineAux = m_lex.line();
             advance();
+
             BoolExpr* bx = procBoolExpr();
+
             if(m_current.type == TT_THEN)
                 advance();
+
             Command* thencmd = procCode();
-			ifvec.push_back(new IfCommand(line, bx, thencmd));
+
+			ifvec.push_back(new IfCommand(lineAux, bx, thencmd));
+
 			if(ifvec.size() > 1){
 				ifvec[aux - 1]->setElseCommands(ifvec[aux]);
 			}
 			aux++;
         }
+
 		Command* elsecmd = NULL;
+
         if(m_current.type == TT_ELSE)
         {
             advance();
@@ -362,16 +372,19 @@ void SyntaticAnalysis::showError() {
     BoolExpr* SyntaticAnalysis::procBoolExpr() {
         int line = m_lex.line();
 		bool notBoolExpr = false;
-
 		if (m_current.type == TT_NOT){
 			notBoolExpr = true;
             advance();
 		}
 
+		enum CompositeBoolExpr::BoolOp bp = CompositeBoolExpr::NoneOp;
+
+
         BoolExpr* left = procCmpExpr();
+
+		BoolExpr* right = NULL;
         if(m_current.type == TT_AND || m_current.type == TT_OR)
         {
-			enum CompositeBoolExpr::BoolOp bp;
 
             switch(m_current.type){
 				case TT_AND:
@@ -388,23 +401,35 @@ void SyntaticAnalysis::showError() {
                 	showError();
 					break;
 			}
-            BoolExpr* right = procBoolExpr();
-			left = new CompositeBoolExpr(line, left, bp, right);
+            right = procBoolExpr();
         }
-		if(notBoolExpr){
-        	return new NotBoolExpr(line, left);
-    	}
-		else{
-			return left;
+		if(bp != CompositeBoolExpr::NoneOp){
+
+			CompositeBoolExpr* cbe = new CompositeBoolExpr(line, left, bp, right);
+
+			if(notBoolExpr){
+        		left = new NotBoolExpr(line, left);
+    		}
+			else{
+				left = cbe;
+			}
 		}
+
+
+		return left;
     }
 
     // <cmpexpr>  ::= <expr> ( '==' | '!=' | '<' | '<=' | '>' | '>=' | '===' ) <expr>
     SingleBoolExpr* SyntaticAnalysis::procCmpExpr() {
+
 		int line = m_lex.line();
-        Expr* left = procExpr();
+
 
 		enum SingleBoolExpr::RelOp rp = SingleBoolExpr::NoneOp;
+
+
+
+		Expr* left = procExpr();
         switch(m_current.type){
 			case TT_EQUAL:
 				rp = SingleBoolExpr::EqualsOp;
@@ -444,9 +469,12 @@ void SyntaticAnalysis::showError() {
 
     // <expr>     ::= <arith> [ ( '..' | '...' ) <arith> ]
     Expr* SyntaticAnalysis::procExpr() {
-		int line = m_lex.line();
+		Expr* expr = NULL;
+
         Expr* left = procArith();
-		enum BinaryExpr::BinaryOp bp;
+		Expr* right = NULL;
+
+		enum BinaryExpr::BinaryOp bp = BinaryExpr::NoneOp;
         if(m_current.type == TT_INCLUSIVE_RANGE || m_current.type == TT_EXCLUSIVE_RANGE)
         {
             switch(m_current.type){
@@ -462,18 +490,27 @@ void SyntaticAnalysis::showError() {
 					showError();
 					break;
 			}
-            Expr* right = procArith();
-			left = new BinaryExpr(line, left, bp, right);
-        }
-		return left;
+            right = procArith();
+		}
+		int line = m_lex.line();
+
+		if(bp != BinaryExpr::NoneOp)
+			expr = new BinaryExpr(line, left, bp, right);
+		else{
+			expr = left;
+		}
+		return expr;
     }
 
     // <arith>    ::= <term> { ('+' | '-') <term> }
     Expr* SyntaticAnalysis::procArith() {
-		int line = m_lex.line();
+
         Expr* left = procTerm();
 		enum BinaryExpr::BinaryOp bp;
 		while (m_current.type == TT_ADD || m_current.type == TT_SUB) {
+
+			int line = m_lex.line();
+
 			switch(m_current.type){
 				case TT_ADD:
 					bp = BinaryExpr::AddOp;
@@ -495,7 +532,6 @@ void SyntaticAnalysis::showError() {
 
     // <term>     ::= <power> { ('*' | '/' | '%') <power> }
     Expr* SyntaticAnalysis::procTerm() {
-
 		Expr* left = procPower();
 		enum BinaryExpr::BinaryOp bp = BinaryExpr::NoneOp;
         while (m_current.type == TT_MUL || m_current.type == TT_DIV || m_current.type == TT_MOD) {
@@ -526,6 +562,7 @@ void SyntaticAnalysis::showError() {
 
     // <power>    ::= <factor> { '**' <factor> }
     Expr* SyntaticAnalysis::procPower() {
+
         int line = m_lex.line();
 		Expr* left = procFactor();
 		enum BinaryExpr::BinaryOp bp;
@@ -558,12 +595,15 @@ void SyntaticAnalysis::showError() {
 
 
         if(m_current.type == TT_INTEGER || m_current.type == TT_STRING || m_current.type == TT_OPEN_BRA){
-            expr = procConst();
+		    expr = procConst();
 		}
         else if(m_current.type == TT_GETS || m_current.type == TT_RAND)
             expr = procInput();
-        else if(m_current.type == TT_ID || m_current.type == TT_OPEN_PAR)
-            expr = procAccess();
+        else if(m_current.type == TT_ID || m_current.type == TT_OPEN_PAR){
+			std::cout << " esta no procFator " << std::endl;
+			expr = procAccess();
+		}
+
         else
             showError();
 
@@ -625,6 +665,7 @@ void SyntaticAnalysis::showError() {
             m_current.type == TT_ID ||
             m_current.type == TT_OPEN_PAR)
         {
+
             exprs.push_back(procExpr());
 
             while (m_current.type == TT_COMMA)
@@ -642,40 +683,33 @@ void SyntaticAnalysis::showError() {
     Expr* SyntaticAnalysis::procAccess() {
         int line = m_lex.line();
 
+		std::cout << "esta no procAccess" << std::endl;
+
 		Expr* base = NULL;
 
 		if(m_current.type == TT_ID)
             base = procId();
-        else if(m_current.type == TT_OPEN_PAR)
+
+		else if(m_current.type == TT_OPEN_PAR)
         {
             eat(TT_OPEN_PAR);
-            if (m_current.type == TT_ADD ||
-                m_current.type == TT_SUB ||
-                m_current.type == TT_INTEGER ||
-                m_current.type == TT_STRING ||
-                m_current.type == TT_OPEN_BRA ||
-                m_current.type == TT_GETS ||
-                m_current.type == TT_RAND ||
-                m_current.type == TT_ID ||
-                m_current.type == TT_OPEN_PAR)
             base = procExpr();
-            else
-                showError();
-            eat(TT_CLOSE_PAR);
-        }
-        else
+			eat(TT_CLOSE_PAR);
+		}else
             showError();
 
-
+		Expr* index = nullptr;
+		AccessExpr* ac = nullptr;
 
         if(m_current.type==TT_OPEN_BRA)
         {
+			std::cout << "esta no TT_OPEN_BRA" << std::endl;
 
             eat(TT_OPEN_BRA);
-            Expr* index = procExpr();
+            index = procExpr();
             eat(TT_CLOSE_BRA);
-			AccessExpr* ac = new AccessExpr(line, base, index);
-       		base = ac;
+			ac = new AccessExpr(line, base, index);
+			base = ac;
 	    }
 
 		return base;

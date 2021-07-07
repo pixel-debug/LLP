@@ -1,0 +1,8 @@
+i = 0;
+attempts = [1, 2, 4];
+
+attempts[2] = 90;
+while i < attempts.length do
+ print attempts[i].to_s;
+ i = i + 1;
+end

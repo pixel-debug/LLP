@@ -87,6 +87,7 @@ Type* BinaryExpr::expr(){
 			break;
 
 		case AddOp:
+
 			if(t0->type() == Type::IntegerType && t1->type() == Type::IntegerType){
 				int v0 = std::stoi(t0->str());
 				int v1 = std::stoi(t1->str());
@@ -102,16 +103,14 @@ Type* BinaryExpr::expr(){
 			}
 
 			else if (t0->type() == Type::ArrayType && t1->type() == Type::ArrayType){
-				std::cout << "cheguei aqui no array";
+
 				std::vector<Type*> v0 = ((ArrayValue*)t0)->value();
 				std::vector<Type*> v1 = ((ArrayValue*)t1)->value();
 
-				std::vector<Type*> uniao;
-				uniao.insert(v0.end(), v1.begin(), v1.end());
+				//std::vector<Type*> uniao;
+				v0.insert(v0.end(), v1.begin(), v1.end());
 
-				std::cout << uniao[0] << ' ';
-				return new ArrayValue(uniao);
-
+				return new ArrayValue(v0);
 			}
 
 			break;

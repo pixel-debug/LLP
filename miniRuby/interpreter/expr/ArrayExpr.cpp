@@ -1,7 +1,7 @@
 #include "ArrayExpr.h"
 #include "../value/Value.h"
 #include "../value/ArrayValue.h"
-
+#include <iostream>
 #include <vector>
 
 ArrayExpr::ArrayExpr(int line, std::list<Expr*> exprs)
@@ -16,11 +16,11 @@ ArrayExpr::~ArrayExpr(){
 
 Type* ArrayExpr::expr(){
 	std::vector<Type*> res;
-
 	for(Expr* e : m_exprs){
 		Type* v = e->expr();
 		res.push_back(v);
 	}
-
-	return new ArrayValue(res);
+	ArrayValue* av = new ArrayValue(res);
+//	std::cout << av->str() << ' ';
+	return av;
 }
