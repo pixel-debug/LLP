@@ -195,6 +195,7 @@ void SyntaticAnalysis::showError() {
     UnlessCommand* SyntaticAnalysis::procUnless() {
 		int line = m_lex.line();
         eat(TT_UNLESS);
+
         BoolExpr* bx = procBoolExpr();
 
         if (m_current.type == TT_THEN)
@@ -260,6 +261,7 @@ void SyntaticAnalysis::showError() {
     // <output>   ::= ( puts | print ) [ <expr> ] [ <post> ] ';'
     Command* SyntaticAnalysis::procOutput() {
         enum OutputCommand::OutputOp op;
+
 		if (m_current.type == TT_PUTS){
             op = OutputCommand::PutsOp;
 			advance();
@@ -371,6 +373,7 @@ void SyntaticAnalysis::showError() {
     // <boolexpr> ::= [ not ] <cmpexpr> [ (and | or) <boolexpr> ]
     BoolExpr* SyntaticAnalysis::procBoolExpr() {
         int line = m_lex.line();
+
 		bool notBoolExpr = false;
 		if (m_current.type == TT_NOT){
 			notBoolExpr = true;
@@ -517,6 +520,7 @@ void SyntaticAnalysis::showError() {
 					advance();
 					break;
 				case TT_SUB:
+					std:: cout << "esta no sub do arith" << std::endl;
 					bp = BinaryExpr::SubOp;
 					advance();
 					break;
@@ -580,12 +584,16 @@ void SyntaticAnalysis::showError() {
     Expr* SyntaticAnalysis::procFactor() {
 		//int line = m_lex.line();
 		Expr* expr = NULL;
+
+		std::cout << "entrou no procFator" << std::endl;
+
 		enum ConvExpr::ConvOp cp = ConvExpr::NoneOp;
 		if (m_current.type == TT_ADD ){
 			cp = ConvExpr::PlusOp;
 			advance();
 		}
 		if(m_current.type == TT_SUB){
+			std::cout << "entrou no TT_SUB" << std::endl;
 			cp = ConvExpr::MinusOp;
 			advance();
 		}
@@ -600,7 +608,7 @@ void SyntaticAnalysis::showError() {
         else if(m_current.type == TT_GETS || m_current.type == TT_RAND)
             expr = procInput();
         else if(m_current.type == TT_ID || m_current.type == TT_OPEN_PAR){
-			std::cout << " esta no procFator " << std::endl;
+			std:: cout << "esta no TT_ID do factor" << std::endl;
 			expr = procAccess();
 		}
 
@@ -683,12 +691,15 @@ void SyntaticAnalysis::showError() {
     Expr* SyntaticAnalysis::procAccess() {
         int line = m_lex.line();
 
-		std::cout << "esta no procAccess" << std::endl;
+		std::cout << " esta no procAccess" << std::endl;
 
 		Expr* base = NULL;
 
-		if(m_current.type == TT_ID)
-            base = procId();
+		if(m_current.type == TT_ID){
+			base = procId();
+			std::cout << " esta no procAccess" << std::endl;
+		}
+
 
 		else if(m_current.type == TT_OPEN_PAR)
         {
@@ -703,7 +714,6 @@ void SyntaticAnalysis::showError() {
 
         if(m_current.type==TT_OPEN_BRA)
         {
-			std::cout << "esta no TT_OPEN_BRA" << std::endl;
 
             eat(TT_OPEN_BRA);
             index = procExpr();

@@ -1,4 +1,4 @@
-a = rand;
+a = -1;
 a = -a if a < 0;
 puts a;
 
