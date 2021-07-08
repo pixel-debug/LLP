@@ -11,7 +11,6 @@ class Variable : public SetExpr{
 		virtual ~Variable();
 
 		virtual Type *expr();
-
 		void setValue(Type* value);
 		const std::string& getName() const {return name;}
 

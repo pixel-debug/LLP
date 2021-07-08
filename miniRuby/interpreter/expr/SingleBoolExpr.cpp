@@ -98,37 +98,48 @@ bool SingleBoolExpr::expr(){
 		}
 		break;
 	case ContainsOp:
-		bool aux = false;
+
 		if(t1->type() == Type::IntegerType && t2->type() == Type::ArrayType){
 
-				std::vector<Type*> v1 = ((ArrayValue*)t2)->value();
+			IntegerValue* iv = dynamic_cast<IntegerValue*>(t1);
+			int i = iv->value();
 
-				if(std::find(v1.begin(), v1.end(), t1) != v1.end()){
-					aux = true;
-					std::cout << "tem" << std::endl;
-				}
-				else{
-					std::cout << "tem nao" << std::endl;
-					aux = false;
-				}
+			ArrayValue* av = dynamic_cast<ArrayValue*>(t2);
+			std::vector<Type*>* v = av->value();
 
+			for(int j = 0; j < v->size(); j++){
+				Type* t = (*v)[j];
+				if(t->type() == Type::IntegerType){
+					IntegerValue* iv2 = dynamic_cast<IntegerValue*>(t);
+					int itemp = iv2->value();
+					if(itemp == i){
+						return true;
+					}
+				}
+			}
 		}
 		else if (t1->type() == Type::StringType && t2->type() == Type::ArrayType){
-				std::vector<Type*> v1 = ((ArrayValue*)t2)->value();
+			StringValue* sv = dynamic_cast<StringValue*>(t1);
+			std::string s = sv->value();
 
-				if(std::find(v1.end(), v1.begin(), t1) != v1.end()){
-					aux = true;
+			ArrayValue* av = dynamic_cast<ArrayValue*>(t2);
+			std::vector<Type*>* v = av->value();
+
+			for(int j = 0; j < v->size(); j++){
+				Type* t = (*v)[j];
+				if(t->type() == Type::StringType){
+					StringValue* iv2 = dynamic_cast<StringValue*>(t);
+					std::string stemp = iv2->value();
+					if(stemp == s){
+						return true;
+					}
 				}
-				else
-					aux = false;
 			}
+		}
 		else{
 			Utils::abort(SingleBoolExpr::getLine());
 		}
-
 		break;
-
-	return aux;
 	}
-
+	return false;
 }

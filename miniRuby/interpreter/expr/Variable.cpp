@@ -1,5 +1,7 @@
 #include "Variable.h"
 #include <iostream>
+#include <sstream>
+
 Variable::Variable(int line, const std::string& name)
 	: SetExpr(line), name(name) {
 }
@@ -14,3 +16,5 @@ Type* Variable::expr() {
 void Variable::setValue(Type* value) {
 	Memory::write(name, value);
 }
+
+

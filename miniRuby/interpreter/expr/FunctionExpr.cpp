@@ -27,12 +27,12 @@ Type* FunctionExpr::expr(){
 		if (!(v->type() == Type::ArrayType))
 			Utils::abort(Expr::getLine());
 		else{
-			std::vector<Type*> v0 = ((ArrayValue*)v)->value();
+			std::vector<Type*>* v0 = ((ArrayValue*)v)->value();
 
 			// std::vector<Type*> vec = v0;
 			// vec = v0;
 
-			int len = v0.size();
+			int len = v0->size();
 
 			return new IntegerValue(len);
 
@@ -47,17 +47,13 @@ Type* FunctionExpr::expr(){
 			int n = std::stoi(sv);
 
 			return new IntegerValue(n);
-
-
 		}
-
 	}
 	if (m_fp == FunctionOp::ToStringOp) {
 
 		int v0 = ((IntegerValue*)v)->value();
 		std::string s = std::to_string(v0);
 		return new StringValue(s);
-
 	}
 }
 

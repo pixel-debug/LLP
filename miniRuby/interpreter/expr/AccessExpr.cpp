@@ -18,99 +18,42 @@ Type* AccessExpr::expr(){
 	Type* t0 = m_base->expr();
 	Type* t1 = m_index->expr();
 
-	if(m_index == NULL)
-		Utils::ioob(AccessExpr::getLine());
-	else{
-		int indice = 0;
-		if(!(t0->type() == Type::ArrayType))
-			Utils::abort(AccessExpr::getLine());
-		else{
-			std::vector<Type*> av = ((ArrayValue*)t0)->value();
-			std::vector<Type*> vec = av;
+	if(t0->type() != Type::ArrayType)
+		Utils::abort(AccessExpr::getLine());
 
-			if(t1->type() == Type::IntegerType){
-				indice = ((IntegerValue*) t1)->value();
-			}
-			else if(t1->type() == Type::StringType){
-				std::string sv = ((StringValue*)t1)->value();
-				indice = std::stoi(sv);
-			}
-			else{
-				Utils::abort(AccessExpr::getLine());
-			}
+	if(t1->type() != Type::IntegerType)
+		Utils::abort(AccessExpr::getLine());
 
-			return vec[indice];
-		}
-	}
-	return t0;
+	ArrayValue* av = dynamic_cast<ArrayValue*>(t0);
+	IntegerValue* iv = dynamic_cast<IntegerValue*>(t1);
+
+	std::vector<Type*>* v = av->value();
+	int i = iv->value();
+
+	if(i >= v->size() || i < 0)
+		Utils::abort(AccessExpr::getLine());
+	return (*v)[i];
+
 }
 
 void AccessExpr::setValue(Type* value){
 	Type* t0 = m_base->expr();
 	Type* t1 = m_index->expr();
 
+	if(t0->type() != Type::ArrayType)
+		Utils::abort(AccessExpr::getLine());
 
-	SetExpr* set = (SetExpr*)t0;
+	if(t1->type() != Type::IntegerType)
+		Utils::abort(AccessExpr::getLine());
 
+	ArrayValue* av = dynamic_cast<ArrayValue*>(t0);
+	IntegerValue* iv = dynamic_cast<IntegerValue*>(t1);
 
+	std::vector<Type*>* v = av->value();
+	int i = iv->value();
 
-	if(m_index == NULL){
-		if(value->type() == Type::IntegerType){
-			int t3 = ((IntegerValue*) value)->value();
-			IntegerValue* indice = new IntegerValue(t3);
-			set->setValue(indice);
-		}
-		if(value->type() == Type::StringType){
-			std::string t3 = ((StringValue*) value)->value();
-			StringValue* indice = new StringValue(t3);
-			set->setValue(indice);
-		}
-		else{
-			set->setValue(value);
-		}
-	}
-	else{
-		int indice = 0;
-		if(!(t0->type() == Type::ArrayType))
-			Utils::abort(AccessExpr::getLine());
-		else{
-			std::vector<Type*> vec = ((ArrayValue*)t0)->value();
-
-			if(t1->type() == Type::IntegerType){
-				indice = ((IntegerValue*) t1)->value();
-			}
-			else if(t1->type() == Type::StringType){
-				std::string sv = ((StringValue*)t1)->value();
-				indice = std::stoi(sv);
-			}
-			else{
-				Utils::abort(AccessExpr::getLine());
-			}
-
-			if(indice >= vec.size()){
-				if( indice == vec.size())
-					vec.push_back(value);
-				else{
-					for (int i = vec.size(); i <= indice; i ++){
-						if(indice == vec.size())
-							vec.push_back(value);
-						else{
-							vec.push_back(NULL);
-						}
-					}
-				}
-			}
-			else
-				vec[indice] = value;
-			ArrayValue* av = new ArrayValue(vec);
-
-			std::cout << "indice " << indice << ' ' << std::endl;
-			std::cout << "value " << value->str() << ' ' << std::endl;
-
-			set->setValue(av);
-
-			std::cout << "vec[indice] " << vec[indice]->str() << ' ' << std::endl;
-		}
-	}
+	if(i >= v->size() || i < 0)
+		Utils::abort(AccessExpr::getLine());
+	(*v)[i] = value;
 }
 

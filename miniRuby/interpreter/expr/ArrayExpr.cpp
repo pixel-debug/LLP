@@ -15,10 +15,10 @@ ArrayExpr::~ArrayExpr(){
 }
 
 Type* ArrayExpr::expr(){
-	std::vector<Type*> res;
+	std::vector<Type*>* res = new std::vector<Type*>();
 	for(Expr* e : m_exprs){
 		Type* v = e->expr();
-		res.push_back(v);
+		res->push_back(v);
 	}
 	ArrayValue* av = new ArrayValue(res);
 	return av;

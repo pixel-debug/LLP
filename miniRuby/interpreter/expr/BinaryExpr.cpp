@@ -26,59 +26,60 @@ Type* BinaryExpr::expr(){
 				int v0 = std::stoi(t0->str());
 				int v1 = std::stoi(t1->str());
 
-				std::vector<Type*> vec1;
+				std::vector<Type*>* vec1 = new std::vector<Type*>();
 			//	std::cout << v0 << ' ' << v1 << ' ';
 				if(v0 < v1){
 					for( int i = v0; i <= v1; i++){
 						IntegerValue* iv = new IntegerValue(i);
 					//	std::cout << iv->str() << std::endl;
-						vec1.push_back(iv);
+						vec1->push_back(iv);
 					}
 				}
 				else if(v0 > v1){
 					for( int i = v0; i >= v1; i--){
 						IntegerValue* iv = new IntegerValue(i);
 					//	std::cout << iv->str() << std::endl;
-						vec1.push_back(iv);
+						vec1->push_back(iv);
 					}
 				}
 				else{
 					int i = v0;
 					IntegerValue* iv = new IntegerValue(i);
 					//	std::cout << iv->str() << std::endl;
-					vec1.push_back(iv);
+					vec1->push_back(iv);
 				}
 				ArrayValue* av = new ArrayValue(vec1);
 				//std::cout << av << std::endl;
 				return av;
 			}
 			break;
+
 		case RangeWithoutOp:
 			if(t0->type() == Type::IntegerType && t1->type() == Type::IntegerType){
 				int v0 = std::stoi(t0->str());
 				int v1 = std::stoi(t1->str());
 
-				std::vector<Type*> vec1;
+				std::vector<Type*>* vec1 = new std::vector<Type*>();
 				//std::cout << (v0 > v1) << std::endl;
 				if(v0 < v1){
 					for( int i = v0; i < v1; i++){
 						IntegerValue* iv = new IntegerValue(i);
 					//	std::cout << iv->str() << std::endl;
-						vec1.push_back(iv);
+						vec1->push_back(iv);
 					}
 				}
 				else if(v0 > v1){
 					for( int i = v0; i > v1; i--){
 						IntegerValue* iv = new IntegerValue(i);
 					//	std::cout << iv << std::endl;
-						vec1.push_back(iv);
+						vec1->push_back(iv);
 					}
 				}
 				else{
 					int i = v0;
 					IntegerValue* iv = new IntegerValue(i);
 				//	std::cout << iv->str() << std::endl;
-					vec1.push_back(iv);
+					vec1->push_back(iv);
 				}
 				ArrayValue* av = new ArrayValue(vec1);
 				//std::cout << av << std::endl;
@@ -104,13 +105,16 @@ Type* BinaryExpr::expr(){
 
 			else if (t0->type() == Type::ArrayType && t1->type() == Type::ArrayType){
 
-				std::vector<Type*> v0 = ((ArrayValue*)t0)->value();
-				std::vector<Type*> v1 = ((ArrayValue*)t1)->value();
+				std::vector<Type*>* v0 = ((ArrayValue*)t0)->value();
+				std::vector<Type*>* v1 = ((ArrayValue*)t1)->value();
 
-				//std::vector<Type*> uniao;
-				v0.insert(v0.end(), v1.begin(), v1.end());
 
-				return new ArrayValue(v0);
+				std::vector<Type*>* uniao = new std::vector<Type*>();
+
+				uniao->insert(uniao->end(), v0->begin(), v0->end());
+				uniao->insert(uniao->end(), v1->begin(), v1->end());
+
+				return new ArrayValue(uniao);
 			}
 
 			break;
@@ -123,6 +127,7 @@ Type* BinaryExpr::expr(){
 				return new IntegerValue(v0 - v1);
 			}
 			break;
+
 	 	case MulOp:
 		 	if(t0->type() == Type::IntegerType && t1->type() == Type::IntegerType){
 				int v0 = std::stoi(t0->str());
@@ -133,6 +138,7 @@ Type* BinaryExpr::expr(){
 				return new IntegerValue(v0 * v1);
 			 }
 	 		break;
+
 	 	case DivOp:
 		 	if(t0->type() == Type::IntegerType && t1->type() == Type::IntegerType){
 
@@ -143,6 +149,7 @@ Type* BinaryExpr::expr(){
 				return new IntegerValue(v0 / v1);
 			 }
 	 		break;
+
 	 	case ModOp:
 		 	if(t0->type() == Type::IntegerType && t1->type() == Type::IntegerType){
 				int v0 = std::stoi(t0->str());
@@ -151,6 +158,7 @@ Type* BinaryExpr::expr(){
 				return new IntegerValue(v0 % v1);
 			 }
 	 		break;
+
 	 	case ExpOp:
 		 	if(t0->type() == Type::IntegerType && t1->type() == Type::IntegerType){
 				int v0 = std::stoi(t0->str());
@@ -159,8 +167,8 @@ Type* BinaryExpr::expr(){
 				return new IntegerValue(v0 * v1);
 			 }
 	 		break;
+
 	 	default:
 	 		break;
-	 	}
-
+	}
 }

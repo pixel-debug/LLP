@@ -1,0 +1,6 @@
+a = [1, 3, 90];
+if 4 === a then
+	puts 'sim';
+else
+	puts 'nao';
+end

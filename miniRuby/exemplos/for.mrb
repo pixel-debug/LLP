@@ -1,6 +1,6 @@
 a = 1..5;
 puts a;
-for x in a do
+for x in 1..5 do
   print x.to_s + ' ';
 end
 puts;

@@ -37,14 +37,9 @@ void AssignCommand::execute(){
 
 
 			if (sexpr == nullptr) {
-
 				Utils::abort(AssignCommand::getLine());
-
 	 		}
-	//		 std::cout << "aaa" << std::endl;
 			sexpr->setValue(temp[i]);
-	//		std::cout << "bb" << std::endl;
 		}
-
 	}
 }

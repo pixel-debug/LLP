@@ -1,13 +1,15 @@
-attempts = [];
-i = 0;
-while i < 5 do
-	x = gets.to_i;
+puts 'Escolha dois numeros: ';
+min = gets.to_i;
+max = gets.to_i;
 
-	if x === attempts then
-		puts 'ja tem esse valor';
-	else
-		attempts = attempts + [x];
-	end
-	i = i+1;
+# Invert them if necessary.
+min, max = max, min if min > max;
+
+# Compute the sum.
+sum = 0;
+puts min..max;
+for e in min..max do
+  sum = sum + e;
+  puts sum;
+
 end
-puts attempts;

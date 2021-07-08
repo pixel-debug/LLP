@@ -4,15 +4,15 @@
 #include "Value.h"
 #include <vector>
 
-class ArrayValue : public Value<std::vector<Type*>>{
+class ArrayValue : public Value<std::vector<Type*>*>{
 	public:
 
-		ArrayValue(std::vector<Type*> value);
+		ArrayValue(std::vector<Type*>* value);
 
 		virtual ~ArrayValue();
-		virtual std::vector<Type*> value();
+		virtual std::vector<Type*>* value();
 		virtual std::string str();
 	private:
-		std::vector<Type*> m_value;
+		std::vector<Type*>* m_value;
 };
 #endif
