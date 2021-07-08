@@ -9,5 +9,3 @@ O	 objetivo	 é	 desenvolver	 um	 interpretador	 para	 um subconjunto	 de	 uma	 
     Entre na pasta com o comando cd/miniRuby
     make
     ./rubi exemplos/[name file].mrb
-  
-. 
