@@ -8,8 +8,3 @@ void Utils::abort(int line){
 
 }
 
-void Utils::ioob(int line){
-	printf("%02d: Index Out Of Bounds\n", line);
-	exit(1);
-
-}
