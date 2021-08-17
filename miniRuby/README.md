@@ -66,7 +66,11 @@ e. .to_s: converter	um	inteiro	ou	arranjo	para	string </br>
 <access> ::= ( <id> | '(' <expr> ')' ) [ '[' <expr> ']' ]
 <function> ::= '.' ( length | to_i | to_s )
 ```
-	
+
+## Autômato.
+![image](https://user-images.githubusercontent.com/62568976/129758695-8cf1a6c0-9019-4a05-a6da-4dd161cc9c54.png)
+
+
 ## Para rodar o prejeto:
     Entre na pasta com o comando cd/miniRuby
     make
