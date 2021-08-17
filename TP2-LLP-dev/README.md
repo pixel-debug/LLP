@@ -11,6 +11,9 @@ O	objetivo	desse	 trabalho	prático	é	permitir	que	a	pratica dos	conceitos	 de	
 formar	 3	 peças	 na	 horizontal,	 na	 vertical,	 ou	 na	 diagonal primeiro. O	 usuário pode	vencer	tanto	na	primeira	quanto	na	segunda	fase.</br>
 (https://en.wikipedia.org/wiki/Picaria)
 
+## Imagens e easter egg
+
+
 ## Autores
 
 [**Mateus Lemos**](https://github.com/lemonteus) </br>
