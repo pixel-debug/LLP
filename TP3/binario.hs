@@ -2,11 +2,10 @@
 
 binario :: Int -> [Int]
 binario a
-    | a /= 0 = [mod a 2] ++ binario (div a 2)   -- divisoes por 2
-    | a <= 0 = []                               -- a <= 0 nao entra
+    | a == 0 = [0]                                                        -- coloco 0 
+    | a == 1 = [1]                                                        -- coloco 1 
+    | otherwise =  binario (div a 2 ) ++ [mod a 2]                        -- faço a conta
   
 inverteBinario :: [Int] -> [Int]
-inverteBinario (a:x) = if x/=[] then inverteBinario x ++ [a] -- não ta vazia, troco os numeros
-                       else [a]
 
-main = print $ inverteBinario (binario 20)
+main = print $ binario 20
