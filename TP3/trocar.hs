@@ -9,8 +9,9 @@ fazTroca  a
    | a >= 10 = fazTroca (a - 10)++[10]
    | a >= 5 = fazTroca (a - 5)++[5]
    | a >= 1 = fazTroca (a - 1)++[1]
+   | otherwise = []
 
 trocar :: Int -> [Int]
-trocar a = fazTroca a
+trocar a  = fazTroca a
 
 main = print $ trocar 162
