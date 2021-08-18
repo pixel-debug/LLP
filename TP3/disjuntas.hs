@@ -7,7 +7,7 @@ achaDisjunta b (a:c)
 
 disjuntas :: [Int] -> [Int] -> Bool
 disjuntas d (a:c)
-  | c==[] = if achaDisjunta a d then False else True
-  | c/=[] = if achaDisjunta a d then False else disjuntas c d
+  | c==[] = if achaDisjunta a d then True else False
+  | c/=[] = if achaDisjunta a d then True else disjuntas c d
 
-main = print $ disjuntas [1,2,3] [5,3,6,0]
+main = print $ disjuntas [1,2,3] [5,1,6,0]
