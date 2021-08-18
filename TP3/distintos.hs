@@ -3,8 +3,9 @@
 achaDistinto :: Int -> [Int] -> Bool
 achaDistinto b (a:c)
   | c==[] = if b == a then False else True
-  | b /= a = achaDistinto b c
-
+  | b == a = False
+  | b /= a = achaDistinto b c 
+  
 distintos :: [Int] -> Bool
 distintos (a:c)
   | c==[] = True
