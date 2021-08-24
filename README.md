@@ -7,4 +7,4 @@ Práticas
 [ x ] Interpretador Mini Ruby  <br />
 [ x ] Picaria  <br />
 [ x ] Haskell  <br />
-
+[ x ] Prolog  <br />
